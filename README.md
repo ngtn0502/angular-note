@@ -35,6 +35,7 @@ some little note by myself to remind what did i learn
 | 9   | [HTTP Requests](#http-requests)                                       |
 | 10  | [Authentication](#authentication)                                     |
 | 11  | [NgRx](#NgRx)                                                         |
+| 12  | [Async Pipe](#async-pipe)                                                         |
 
 # Section 02 - THE BASIC
 
@@ -779,3 +780,17 @@ When we create an effect it will listen to every action we dispatch and filter w
 
 - In map => it wrap the new action we create in to an observable and automatically dispatch this action
 - In catchError => we have to use `of operator` to wrap our newly created action to a new observable
+
+---
+---
+
+# Async Pipe
+
+Async pipe is a way to subcribe to observable like we do manually by calling subscribe method.
+
+The angular async pipe allows the subscription to observables inside of the angular template syntax. It also takes care of unsubscribing from observables automatically.
+
+Why would we use this rather than use subcribe to an observable manually?
+
+=> Because if we subcribe manually we must be unsubscribe manually. With async pipe it will unsubscrible automatically when the component is destroyed.
+

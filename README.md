@@ -794,3 +794,22 @@ Why would we use this rather than use subcribe to an observable manually?
 
 => Because if we subcribe manually we must be unsubscribe manually. With async pipe it will unsubscrible automatically when the component is destroyed.
 
+- Async pipe with interpolation
+
+```
+<p>{{ observable | async }}</p>
+```
+- Async pipe with ngIf directive
+
+```
+<p *ngIf="(observable$ | async) > 5">{{ observable$ | async }}</p>
+```
+- Async pipe with ngFor directive
+
+```
+<p *ngFor="let item of items | async">{{ item }}</p>
+```
+
+---
+
+---

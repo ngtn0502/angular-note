@@ -35,7 +35,8 @@ some little note by myself to remind what did i learn
 | 9   | [HTTP Requests](#http-requests)                                       |
 | 10  | [Authentication](#authentication)                                     |
 | 11  | [NgRx](#NgRx)                                                         |
-| 12  | [Async Pipe](#async-pipe)                                                         |
+| 12  | [Async Pipe](#async-pipe)                                             |
+| 13  | [Map, switchMap, mergeMap](#map-switchmap-mergemap)                   |
 
 # Section 02 - THE BASIC
 
@@ -813,3 +814,46 @@ Why would we use this rather than use subcribe to an observable manually?
 ---
 
 ---
+
+# map, switchMap, mergeMap
+
+```map```: applies a given project function to each value emitted by the source Observable, and emits the resulting values as an Observable.
+
+
+    // lets create our data first
+    const data = of([
+      {
+        brand: 'porsche',
+        model: '911'
+      },
+      {
+        brand: 'porsche',
+        model: 'macan'
+      },
+      {
+        brand: 'ferarri',
+        model: '458'
+      },
+      {
+        brand: 'lamborghini',
+        model: 'urus'
+      }
+    ]);
+
+    // get data as brand+model string. Result: 
+    // ["porsche 911", "porsche macan", "ferarri 458", "lamborghini urus"]
+    data
+      .pipe(
+        map(cars => cars.map(car => `${car.brand} ${car.model}`))
+      ).subscribe(cars => console.log(cars))
+
+
+```mergeMap``` and ```switchMap``` help us doesn't need to subscribe to both outer and inner observable
+
+```mergeMap```: use to combine outer observable with inner observable => only emitted one observable 
+
+=> It does not cancel old subscription of inner observable when outer observable was emitting
+
+```swtichMap```: use to combine outer observable with inner observable => only emitted one observable 
+
+=> It cancel old subscription of inner observable when outer observable was emitting

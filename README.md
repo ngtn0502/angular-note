@@ -104,6 +104,8 @@ using `(event without On)` to react to event that user interact with HTML
 
 ## Directive
 
+<img src="./img/4.PNG" width="900">
+
 `Directive` is an `instruction` to the `DOM`
 
 Ex: We `directive` / `instruct` where the `component` should place in `template structure`
@@ -122,8 +124,8 @@ There are other `directive` built in `Angular` => We use it
 
 ### Attribute directive
 
-This does `not add or remove` element like `structural directive`
-=> It just change the element
+This does `not add or remove` element in the DOM like `structural directive`
+=> It just change the `appearance` element
 
 ```
 [ngStyle]="{backgroundColor: red}"
@@ -334,6 +336,8 @@ There is no `*` operator in `Angular`
 
 `Services` is where we centralize our code for more purposes - for reuse this code in others component
 
+`Services` is where we use for cross-component communication, fetching data from backend,...
+
 `Dependency` is what our component depend on
 
 `Dependency Injection` is the way `Angular` provide to us to `inject` `the instances` of `Services Class` into `our component`
@@ -389,6 +393,8 @@ import { Injectable } from '@angular/core'
 ---
 
 # Routing
+
+<img src="./img/5.PNG" width="900">
 
 First step we have to create our `Routes` with `Angular`
 
@@ -511,6 +517,7 @@ In HTML, we bind `[queryParams]` and `[fragment]` to `[routerLink]` directive
 >
 </a>
 ```
+> localhost:4200/servers/5/edit?allowEdit=1#loading
 
 In code, In TS we use `Router Service` to navigate our route
 
@@ -522,6 +529,7 @@ this.router.navigate(['/server', id , 'edit'], {
   fragment: 'loading',
 })
 ```
+> localhost:4200/servers/5/edit?allowEdit=1#loading
 
 => To `access` query params => We use `activatedRoute services` to retrieve through `snapshot` or subscribe to `activatedRoute observable`
 
@@ -586,7 +594,7 @@ Advanced:
 - `Observable` can `unsubscribe` to an former event - to avoid memory leak.
 - `Built-in Observable` is `unsubscribe` by `Angular` - you do not need to do that
 
-<img src="./img/3.png" width="900">
+<img src="./img/3.PNG" width="900">
 
 ## EventEmitter - Subject - Behavior Subject - Observable
 
@@ -817,6 +825,10 @@ Why would we use this rather than use subcribe to an observable manually?
 
 # map, switchMap, mergeMap
 
+We should read this article to find out more about Map, MergeMap, SwitchMap.
+
+> https://dev.to/bhagatparwinder/map-vs-mergemap-vs-switchmap-5gee
+
 ```map```: applies a given project function to each value emitted by the source Observable, and emits the resulting values as an Observable.
 
 
@@ -848,12 +860,20 @@ Why would we use this rather than use subcribe to an observable manually?
       ).subscribe(cars => console.log(cars))
 
 
-```mergeMap``` and ```switchMap``` help us doesn't need to subscribe to both outer and inner observable
+```mergeMap``` and ```switchMap``` help us doesn't need to subscribe to both outer and inner observable 
+
+=> It mean we do not end up with multiple nested subcriber for observable.
 
 ```mergeMap```: use to combine outer observable with inner observable => only emitted one observable 
 
-=> It does not cancel old subscription of inner observable when outer observable was emitting
+in other word
+
+```mergeMap```: is a combination of ```map``` and ```merge``` 
+
+> it map through the original array and do the API call, after that merge the observable of map and the observable of API call
+
+=> It does not cancel old subscription of inner observable when outer observable was emitting => It will receive a stream of value
 
 ```swtichMap```: use to combine outer observable with inner observable => only emitted one observable 
 
-=> It cancel old subscription of inner observable when outer observable was emitting
+> switchMap does what mergeMap does but with a slight twist. switchMap will subscribe to all the inner Observables inside the outer Observable but it does not merge the inner Observables. It instead switches to the latest Observable and passes that along to the chain.

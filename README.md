@@ -874,6 +874,6 @@ in other word
 
 => It does not cancel old subscription of inner observable when outer observable was emitting => It will receive a stream of value
 
-```swtichMap```: use to combine outer observable with inner observable => only emitted one observable 
+```swtichMap```: use to combine outer observable with inner observable => only emitted latest value of observable stream
 
 > switchMap does what mergeMap does but with a slight twist. switchMap will subscribe to all the inner Observables inside the outer Observable but it does not merge the inner Observables. It instead switches to the latest Observable and passes that along to the chain.

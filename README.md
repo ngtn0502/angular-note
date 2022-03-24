@@ -11,6 +11,7 @@ some little note by myself to remind what did i learn
 | No. | Content                                                               |
 | --- | --------------------------------------------------------------------- |
 |     |                                                                       |
+| 0   | [Interview Training](#interview)                             |
 | 1   | [Overview - Basic](#section-01-the-basic)                             |
 |     | [Data Binding](#data-binding)                                         |
 |     | [Directive](#directive)                                               |
@@ -877,3 +878,37 @@ in other word
 ```swtichMap```: use to combine outer observable with inner observable => only emitted latest value of observable stream
 
 > switchMap does what mergeMap does but with a slight twist. switchMap will subscribe to all the inner Observables inside the outer Observable but it does not merge the inner Observables. It instead switches to the latest Observable and passes that along to the chain.
+
+---
+
+---
+
+
+## What is Module 
+
+`Module` is a centralized container of Angular application, where we can group/contain related the component, services, directives and pipes of that module.
+
+We split Angular application into multiple `Module`, each `Module` dedicated to an application domain, it provide us the easier for maintaining our application
+
+We can `import` what we `need` into `our module`, and `export` what we want to `share` to `other module`.
+
+## Decorator
+
+We turn a class `AppModule` into an `Angular Module` just by using the `NgModule decorator`.
+
+We add `decorator` `@NgModule()` and `metadata object` in class to provide extra information to `Angular`, help `Angular` recognize this is an module.
+
+## Component
+
+Component is a basic UI building block of `Angular Application`
+
+Component consit of 3 main part:
+
+  A HTML Template - The View: 
+
+  A Typescript class - The code: support the view
+
+  A CSS style - the styling
+
+  A Medadata: provide some additional information of the class for `Angular`
+

@@ -884,7 +884,7 @@ in other word
 ---
 
 
-## What is Module 
+## What is Module?rffff
 
 `Module` is a centralized container of Angular application, where we can group/contain related the component, services, directives and pipes of that module.
 
@@ -892,17 +892,17 @@ We split Angular application into multiple `Module`, each `Module` dedicated to 
 
 We can `import` what we `need` into `our module`, and `export` what we want to `share` to `other module`.
 
-## Decorator
+## MetaData and Decorator
 
 We turn a class `AppModule` into an `Angular Module` just by using the `NgModule decorator`.
 
 We add `decorator` `@NgModule()` and `metadata object` in class to provide extra information to `Angular`, help `Angular` recognize this is an module.
 
-## Component
+## What is Component?
 
 Component is a basic UI building block of `Angular Application`
 
-Component consit of 3 main part:
+Component consit of 3 main part: 
 
   A HTML Template - The View: 
 
@@ -912,3 +912,17 @@ Component consit of 3 main part:
 
   A Medadata: provide some additional information of the class for `Angular`
 
+## What is template varialble?
+
+`Template Variable` is allow us to use data from one part ( or element) of a template in another part ( another element) of the template
+
+In other words, it help us to get the refer to the DOM of one element
+
+```
+<input #phone placeholder="phone number" />
+
+<!-- lots of other elements -->
+
+<!-- phone refers to the input element; pass its `value` to an event handler -->
+<button type="button" (click)="callPhone(phone.value)">Call</button>
+```

@@ -12,6 +12,7 @@ some little note by myself to remind what did i learn
 | --- | --------------------------------------------------------------------- |
 |     |                                                                       |
 | 0   | [Interview Training](#interview)                             |
+| 0.1   | [How Angular actually work - change detection](#how-angular-actually-work)                             |
 | 1   | [Overview - Basic](#section-01-the-basic)                             |
 |     | [Data Binding](#data-binding)                                         |
 |     | [Directive](#directive)                                               |
@@ -39,7 +40,17 @@ some little note by myself to remind what did i learn
 | 12  | [Async Pipe](#async-pipe)                                             |
 | 13  | [Map, switchMap, mergeMap](#map-switchmap-mergemap)                   |
 
-# Section 02 - THE BASIC
+# How Angular actually work
+
+[Extremely helpful article about how `Change Detection` work](https://blog.angular-university.io/how-does-angular-2-change-detection-really-work/#:~:text=Angular%20change%20detection%20is%20a,and%20its%20HTML%20template%20view.)
+
+`Change Detection` is mechanism that `Angular` use for dectecting changes in the DOM.
+
+It patch/overide the default browser APIs ( such as addEventListener apis), and add `change detection` method into this custom addEventListener, by doing this, when everytime the DOM event was triggered, it will triggered the `change detection` and update the UI.
+
+The process of pathching a custom event into default browser API is doing by a ship-in external library in Angular called `Zone.js`
+
+# Section 01 - THE BASIC
 
 `Angular` just only load index.html - and the `ts` file was read first when the application was loaded
 
@@ -57,7 +68,7 @@ If you want `angular` and `ts` aware one component - you have to `declare` and `
 Export class ...Component{}
 ```
 
-`Component` in `Angular` just a Class => You must use `@Component` to make `Angular` recognize this is a `Component`
+`Component` in `Angular` just a Class => You must use `@Component decorator` to make `Angular` recognize this is a `Component`
 
 The `component` and `module` must have a `template` or `templateURL`.
 
@@ -70,6 +81,12 @@ Style can declare as `external file (styleUrls)` or internal file `style`
 `Interface` and `Class` are `blueprint` of the house, we build (implement) the house (by new keyword in class) with this `blueprint` contract
 
 The `contract` meaning we have to declare the `property` or `method` we specify in this `Interface or Class` (if we use `?` operator after property or method => It will become optional)
+
+### Difference between interface and class
+
+`Interface` is a place we defined what property or method must be used in the class that implemented this interface
+
+`Class` is where the actual functionality happen - where we actual implement the method
 
 ```
 export interface post {
@@ -154,29 +171,29 @@ This does `not add or remove` element in the DOM like `structural directive`
 
 # Section 05 - Component Communication
 
-## Binding property from parent component to children (@Input) (Lec.67)
+## Parent to child (@Input) (Lec.67)
 
 We use `@Input decorator` to make `property from child` expose to `parent component`
 
 ```
-  @Input() element:
+  @Input() childElement:
     { name: string;
       type: string;
       content: string
     };
 ```
 
-In parent component we bind `this property` with the `property of parent`
+In parent component we bind `this child property` with the `property of parent`
 
 ```
 <app-server-element
     *ngFor="let element of serverElements"
-    [element]="element"
+    [childElement]="element"
 ></app-server-element>
 
 ```
 
-## Sending an event from child component to parent (@Output) (Lec.69)
+## Child to parent (@Output) (Lec.69)
 
 We create our `event` in `child component` - and `emit` it to `parent component` with `data`
 
@@ -197,7 +214,7 @@ We create our `event` in `child component` - and `emit` it to `parent component`
 encapsulation: ViewEncapsulation.None
 ```
 
-## Reference
+## Reference - refer to DOM node
 
 ### By local reference
 
@@ -354,10 +371,11 @@ constructor( servicesInstance: servicesClass ) {
 
 ```
 
-=> This snippet above tell `angular` to `what service instances we want`
-=> When `angular` create our component => It will know what we want but `not know`hot to give us such `instances`
+=> This snippet above tell `angular` what service instances we want
 
-=> We provide it for `angular`
+=> When `angular` create our component => It will know what we want but `not know` how to give us such `instances`
+
+=> We provide it for `angular` by:
 
 ```
 providers: [servicesClass]
@@ -884,7 +902,7 @@ in other word
 ---
 
 
-## What is Module?rffff
+## What is Module?
 
 `Module` is a centralized container of Angular application, where we can group/contain related the component, services, directives and pipes of that module.
 
@@ -926,3 +944,62 @@ In other words, it help us to get the refer to the DOM of one element
 <!-- phone refers to the input element; pass its `value` to an event handler -->
 <button type="button" (click)="callPhone(phone.value)">Call</button>
 ```
+
+## What is directive?
+
+We use `Directive` to add some behavior to element template.
+
+`Directive` is just a class, we use `@Directive() decorator` to tell `Angular` this is a `Directive`
+
+There is two kind of build-in directive:
+
+- Structural Directive: *ngIf, *ngFor => changing the DOM
+
+- Attribute Directive: [ngStyle] => changing the styling
+
+## What is life cycle in Angular?
+
+Directive and Component in `Angular` has a lifecycle, it provide us a change to jump into every changes of component.
+
+Angular creates it, renders it, creates and renders its children, checks it when its data-bound properties change, and destroys it before removing it from the DOM.
+
+## What is Services in Angular?
+
+`Services` is where we centralized our business logic for reuseable purpose. We can use our logic in services at multiple component.
+
+`Services` is also a place where we do some asynchronous task like calling value from APIs.
+
+`Servuces` is also use for cross-component communication.
+
+## What is Dependency Injection in Angular?
+
+`Dependency Injection`: we add `component's dependency` in the `contructor`, and `Angular` will create the intances of this dependency for our `component`
+
+## What is Routing in Angular?
+
+In SPA, we change what user sees by showing or hiding portions of the view/display that corespond to component, rather than going out to the server and request a new page.
+
+And we allow user to move/navigate from one view to another view -> it call routing 
+
+We predefined AppRoutes variable, and register it to AppRoutingModule
+
+## What is Observalbe and Observer in Angular?
+
+`Observable` is like an upgrade version of Promise, we use to handle asynchronous task.
+
+`Observable` is a stream of data come from HTTP Respond. We subscribe to `Observable` to receive value of it.
+
+`The Subscrible method` include an `Observer`
+
+`Observer` is a object, contain a set of callback function, there are three callback function:
+
+- Next
+
+- Error
+
+- Complete
+
+
+<img src="./img/6.png" width="900">
+
+## 

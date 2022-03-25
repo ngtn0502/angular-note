@@ -954,20 +954,6 @@ Component consit of 3 main part:
 
   A Medadata: provide some additional information of the class for `Angular`
 
-## What is template varialble?
-
-`Template Variable` is allow us to use data from one part ( or element) of a template in another part ( another element) of the template
-
-In other words, it help us to get the refer to the DOM of one element
-
-```
-<input #phone placeholder="phone number" />
-
-<!-- lots of other elements -->
-
-<!-- phone refers to the input element; pass its `value` to an event handler -->
-<button type="button" (click)="callPhone(phone.value)">Call</button>
-```
 
 ## What is directive?
 
@@ -997,9 +983,29 @@ Angular creates it, renders it, creates and renders its children, checks it when
 
 `Services` is place we put business logic - it reduce the work load of component - reuseable - testing
 
-## What is Dependency Injection in Angular?
+## Why dependency injection?
 
-`Dependency Injection`: we add `component's dependency` in the `contructor`, and `Angular` will create the intances of this dependency for our `component`
+[Dependency Injection in Angular ( this is a good resources outside there)](https://www.youtube.com/watch?v=OFPIGlxunL0)
+
+<img src="./img/9.png" width="900">
+
+It violate first principle of SOLID - one class should be single responsibility
+
+Hard for testing - becuase when we change Engine, the Car class change also
+
+## What is dependency injection in Angular?
+
+`Dependency Injection` is a pattern allow us to `inject our dependency into the contructor of our component`, it tell `Angluar` that we need the `intances` of this `dependency`, `Angular` will go to `Inversion of Control ( Injector)` and create this `intances` and sent it to our `component`.
+
+> It help our component separate with this dependency - it help us do not worries about the implementation of this dependency - easy to maintaining, testing and increase scalablebility
+
+In `Angular`, we inject our services ( dependency) to our component, and `Angular` will provide the intances of this services ( dependency) for our component.
+
+## How Component can use Services as an Dependency?
+
+We register our `Services` into the `Injector` by add a `@Injector decorator` or we provide in rootModule
+
+<img src="./img/10.png" width="900">
 
 ## What is Routing in Angular?
 
@@ -1040,10 +1046,70 @@ We write our code to decide what happen with the data whenever observable emitte
 
 > In cross-component communication ( services), using subject is more efficient thatn EventEmitter
 
-## What is dependency injection in Angular?
+## What is template varialble?
 
-`Dependency Injection` is a pattern allow us to `inject our dependency into the contructor of our component`, it tell `Angluar` that we need the `intances` of this `dependency`, `Angular` will go to `Inversion of Control` and create this `intances` and sent it to our `component`.
+`Template Variable` is allow us to use data from one part ( or element) of a template in another part ( another element) of the template
 
-> It help our component separate with this dependency - it help us do not worries about the implementation of this dependency - easy to maintaining, testing and increase scalablebility
+In other words, it help us to get the refer to the DOM of one element
 
-In `Angular`, we inject our services ( dependency) to our component, and `Angular` will provide the intances of this services ( dependency) for our component.
+```
+<input #phone placeholder="phone number" />
+
+<!-- lots of other elements -->
+
+<!-- phone refers to the input element; pass its `value` to an event handler -->
+<button type="button" (click)="callPhone(phone.value)">Call</button>
+```
+
+## What is <ng-template> <ng-container>?
+
+`<ng-template>` is a place we put html code inside, and `Angular` does not consider to render it into the DOM
+
+We can use `template variable` to add a reference to `<ng-template>`, and using `structural directive` ( like *ngIf, *ngFor, *ngSwitch) to dynamic render it to the DOM
+
+`<ng-container>` is where we render the `<ng-template>` through `*ngTemplateOutlet=""` directive.
+
+```
+<ng-template #sayHelloTemplate>
+  <p> Say Hello</p>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="sayHelloTemplate">
+</ng-container> 
+ 
+```
+
+## What is TemplateReference and @Viewchild()?
+
+`@ViewChild()` is use for add a reference to HTML Element in the Typescript file, and we can manipulate this HTML Element in the code
+
+`TemplateRef` is a return type of `@ViewChild()`, it hold the reference to the DOM element
+
+## What is <ng-content></ng-content>?
+
+`<ng-content></ng-content>` is used output the content inside selector tag of component to the component html
+
+In AppComponent.html
+
+```
+
+<div>
+  <app-header></app-header>
+</div>
+
+<app-home>
+  <div>
+    <h2>Home Page</h2>
+  </div>
+</app-home>
+
+```
+In AppHome.html
+
+```
+<section>
+  <ng-content></ng-content>
+</section>
+```
+
+=> Everything between <app-home></app-home> will goes to where <ng-content></ng-content> place

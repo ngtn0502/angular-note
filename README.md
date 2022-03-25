@@ -199,6 +199,14 @@ We create our `event` in `child component` - and `emit` it to `parent component`
 
 `$event` is a `protected argument` => It always reference to the same data we pass in the function
 
+## Cross-component communication
+
+We use `subject` - a special type of `observable` 
+
+> Use eventEmitter in child - parent communication
+
+> Use subject for cross-component communication
+
 ## View Encapsulation (Lec.71)
 
 `Angular` made each `css class` have scope to one specific `component`
@@ -617,6 +625,22 @@ Advanced:
 
 ## EventEmitter - Subject - Behavior Subject - Observable
 
+> Don't use EventEmitter, let's use Subject, they are a bit more efficient behind the scenes
+
+### Subject vs Obervable
+
+`Observable` is a `passive` type - we recieve value in `observer` and handle this value.
+
+`Subject` is a `active` type - we call `next` to emit value, and then we subscribe to it to recieve value.
+
+`EventEmitter` we call `emit` to emit value.
+
+> Subject is some kind similar to EvenEmitter, but more efficient behind the scenes
+
+[Subject and Observale] (https://fpt-software.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/14466304#overview)
+
+<img src="./img/8.PNG" width="900">
+
 ### EventEmitter vs. Subject
 
       Subject.next() does the same like EventEmitter.emit(): It emits an event.
@@ -969,7 +993,9 @@ Angular creates it, renders it, creates and renders its children, checks it when
 
 `Services` is also a place where we do some asynchronous task like calling value from APIs.
 
-`Servuces` is also use for cross-component communication.
+`Services` is also use for cross-component communication.
+
+`Services` is place we put business logic - it reduce the work load of component - reuseable - testing
 
 ## What is Dependency Injection in Angular?
 
@@ -989,17 +1015,35 @@ We predefined AppRoutes variable, and register it to AppRoutingModule
 
 `Observable` is a stream of data come from HTTP Respond. We subscribe to `Observable` to receive value of it.
 
+`Observer` is object we passed into `subscribe method`, it contain a set of subscibe call back function  allow us to have three way to handle data:
+
+- Handle Data - Next
+
+- Handle Error - Error
+
+- Handle the Completion - Complete
+
+We write our code to decide what happen with the data whenever observable emitted this data
+
+`Observer` is the consumer of the delivered value from `Observable`
+
 `The Subscrible method` include an `Observer`
-
-`Observer` is a object, contain a set of callback function, there are three callback function:
-
-- Next
-
-- Error
-
-- Complete
 
 
 <img src="./img/6.png" width="900">
 
-## 
+<img src="./img/7.png" width="900">
+
+## What is Subject in Angular?
+
+`Subject` is special kind of `Observable`, we call call `next` in subject to `emit` value. We can `subcribe` to it like an `Observable`
+
+> In cross-component communication ( services), using subject is more efficient thatn EventEmitter
+
+## What is dependency injection in Angular?
+
+`Dependency Injection` is a pattern allow us to `inject our dependency into the contructor of our component`, it tell `Angluar` that we need the `intances` of this `dependency`, `Angular` will go to `Inversion of Control` and create this `intances` and sent it to our `component`.
+
+> It help our component separate with this dependency - it help us do not worries about the implementation of this dependency - easy to maintaining, testing and increase scalablebility
+
+In `Angular`, we inject our services ( dependency) to our component, and `Angular` will provide the intances of this services ( dependency) for our component.

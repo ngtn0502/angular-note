@@ -639,7 +639,7 @@ Advanced:
 
 [Subject and Observale] (https://fpt-software.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/14466304#overview)
 
-<img src="./img/8.PNG" width="900">
+<img src="./img/8.png" width="900">
 
 ### EventEmitter vs. Subject
 
@@ -987,7 +987,7 @@ Angular creates it, renders it, creates and renders its children, checks it when
 
 [Dependency Injection in Angular ( this is a good resources outside there)](https://www.youtube.com/watch?v=OFPIGlxunL0)
 
-<img src="./img/9.png" width="900">
+<img src="./img/9.PNG" width="900">
 
 It violate first principle of SOLID - one class should be single responsibility
 
@@ -1005,7 +1005,7 @@ In `Angular`, we inject our services ( dependency) to our component, and `Angula
 
 We register our `Services` into the `Injector` by add a `@Injector decorator` or we provide in rootModule
 
-<img src="./img/10.png" width="900">
+<img src="./img/10.PNG" width="900">
 
 ## What is Routing in Angular?
 
@@ -1113,3 +1113,69 @@ In AppHome.html
 ```
 
 => Everything between <app-home></app-home> will goes to where <ng-content></ng-content> place
+
+## What is JiT and AoT?
+
+[Angular Compilation](https://www.youtube.com/watch?v=-h_zSpjL4TY)
+
+JiT: Just in time compiler - compile at runtime -> browser use to compile our code at the runtime
+
+AoT: Ahead of time compiler - compile at build time -> will pre-compile our code before deployment
+
+By default, browser must download: applicaiton code and compiler ( `JIT compiler`, Angular compiler) in vendor.bundle.js file.
+
+Our application code will be compile in the runtime by JIT => This mean why the browser must download the `JIT compiler`.
+
+`ng build --prod`
+
+With production build by default, we get AoT compilation, and with AoT compilation, our application is already pre-compiled => we donot need browser download the compiler anymore => reduce our application size
+
+<img src="./img/11.PNG" width="900">
+
+## What are the differences between Angular and AngularJs ?
+
+<img src="./img/12.PNG" width="900">
+
+
+## What are Eager loading and Lazy loading in Angular ?
+
+Eager loading: default loading type of Angular application - all moudles would beload when application start
+
+Lazy loading: modules only be loaded when it's atually needed => improve performance => save resources
+
+## What is the HttpInterceptor in Angular ?
+
+`Interceptors` is a `special Angular Service` that can be use to `intercept` every our `HTTP Request and Response` and `modify` them to meet our requirement.
+
+ex:
+
+- Intercepting to HTTP Request to add the token after it be sent to server
+
+- Intercepting to HTTP Response to add message or status code
+
+```
+import { Injectable } from '@angular/core';
+import { HttpInterceptor } from '@angular/common/http';
+import { HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { HttpHandler } from '@angular/common/http';
+import { HttpEvent } from '@angular/common/http';
+import { FacadeService } from '../service/facade.service';
+@Injectable({
+  providedIn: 'root'
+})
+export class InterceptorService implements HttpInterceptor {
+  token: string;
+  constructor(private facadeService: FacadeService) { }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+    this.token = this.facadeService.getUserToken();
+    if (this.token) {
+      const tokenizedReq = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + this.token) });
+      return next.handle(tokenizedReq);
+    }
+    return next.handle(req);
+  }
+}
+```

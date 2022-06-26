@@ -995,6 +995,14 @@ Hard for testing - becuase when we change Engine, the Car class change also
 
 ## What is dependency injection in Angular?
 
+Dependency injection use to inject service into component - we can register dependency in Module or directly in this serivece
+
+```
+@Injectable{
+  provide: "root"
+}
+```
+
 `Dependency Injection` is a pattern allow us to `inject our dependency into the contructor of our component`, it tell `Angluar` that we need the `intances` of this `dependency`, `Angular` will go to `Inversion of Control ( Injector)` and create this `intances` and sent it to our `component`.
 
 > It help our component separate with this dependency - it help us do not worries about the implementation of this dependency - easy to maintaining, testing and increase scalablebility
@@ -1129,6 +1137,12 @@ Our application code will be compile in the runtime by JIT => This mean why the 
 `ng build --prod`
 
 With production build by default, we get AoT compilation, and with AoT compilation, our application is already pre-compiled => we donot need browser download the compiler anymore => reduce our application size
+
+There are 2 kind of compiling mode in Angular
+
++ JIT: angular code will be comipile and execute in the browser -> perforamence will slow -> only suitable for development mode
+
++ AoT: angular code will be compile and optimize before it run in the browser
 
 <img src="./img/11.PNG" width="900">
 
